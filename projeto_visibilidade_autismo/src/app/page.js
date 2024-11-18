@@ -53,8 +53,8 @@ export default function Home() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           <div className="text-star ">
-            <div className="bg-lightPurple p-6 rounded-full mx-auto w-20 h-20 flex mb-4">
-              <Image src="/icon1.svg" alt="Icon 1" width={40} height={40} />
+            <div className="mb-4 w-full mx-auto w-20 flex">
+              <Image src="/icon1.svg" alt="Icon 1" width={30} height={30} className='self-start' />
             </div>
             <h3 className="text-xl text-darkPurple font-semibold mb-2">Identifique seus talentos</h3>
             <p className="text-gray-600 ">
@@ -62,8 +62,8 @@ export default function Home() {
             </p>
           </div>
           <div className="text-start">
-            <div className="bg-lightPurple p-6 rounded-full mx-auto w-20 h-20 flex mb-4">
-              <Image src="/icon1.svg" alt="Icon 2" width={40} height={40} />
+            <div className="mb-4 w-full mx-auto w-20 flex">
+              <Image src="/icon1.svg" alt="Icon 2" width={30} height={30} />
             </div>
             <h3 className="text-xl text-darkPurple font-semibold mb-2">Controle suas emoções</h3>
             <p className="text-gray-600 ">
@@ -71,8 +71,8 @@ export default function Home() {
             </p>
           </div>
           <div className="text-start">
-            <div className="bg-lightPurple p-6 rounded-full mx-auto w-20 h-20 flex mb-4">
-              <Image src="/icon2.svg" alt="Icon 3" width={40} height={40} />
+            <div className="mb-4 w-full mx-auto w-20 flex">
+              <Image src="/icon2.svg" alt="Icon 3" width={30} height={30} />
             </div>
             <h3 className="text-xl text-darkPurple font-semibold mb-2">Aprimore sua comunicação</h3>
             <p className="text-gray-600 ">
@@ -80,8 +80,8 @@ export default function Home() {
             </p>
           </div>
           <div className="text-start">
-            <div className="bg-lightPurple p-6 rounded-full mx-auto w-20 h-20 flex mb-4">
-              <Image src="/icon2.svg" alt="Icon 4" width={40} height={40} />
+            <div className="mb-4 w-full mx-auto w-20 flex">
+              <Image src="/icon2.svg" alt="Icon 4" width={30} height={30} />
             </div>
             <h3 className="text-xl text-darkPurple font-semibold mb-2">Alcance sua independência</h3>
             <p className="text-gray-600 ">
