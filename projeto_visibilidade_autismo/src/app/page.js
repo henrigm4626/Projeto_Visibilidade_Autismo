@@ -26,21 +26,30 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-white text-center py-12 px-12">
-        <h1 className="text-4xl font-bold text-darkPurple mb-4">
-          Sua carreira profissional começa aqui!
-        </h1>
-        <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
-          Conheça suas habilidades e explore seu potencial no mercado de trabalho. 
-          Este formulário de autoconhecimento foi criado para auxiliar pessoas autistas 
-          em sua jornada profissional.
-        </p>
-        <button
-          className="rounded-full bg-primaryPurple text-white px-6 py-3 hover:bg-darkPurple"
-          onClick={() => router.push('/habilidades_sociais_1')}
-        >
-          Iniciar teste
-        </button>
+      <section className="bg-white self-center py-12 px-12 flex justify-between gap-6">
+        <div className='text-start'>
+          <h1 className="text-4xl font-bold text-darkPurple mb-4">
+            Sua carreira profissional começa aqui!
+          </h1>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
+            Conheça suas habilidades e explore seu potencial no mercado de trabalho. 
+            Este formulário de autoconhecimento foi criado para auxiliar pessoas autistas 
+            em sua jornada profissional.
+          </p>
+          <button
+            className="rounded-full bg-primaryPurple text-white px-6 py-3 hover:bg-darkPurple"
+            onClick={() => router.push('/habilidades_sociais_1')}
+          >
+            Iniciar teste
+          </button>
+        </div>
+        <Image
+          src="/girlWithComputer.svg"
+          alt="logo"
+          width={571}
+          height={324}
+          priority
+        />
       </section>
 
       {/* Differentials Section */}
