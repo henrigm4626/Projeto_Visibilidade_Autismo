@@ -13,6 +13,7 @@ module.exports = {
         'customBlue': '#0A2540',
         'primaryPurple': '#934FF8',
         'darkPurple': '#582F95',
+        'cinza': '#F2F4F4',
       },
     },
   },
