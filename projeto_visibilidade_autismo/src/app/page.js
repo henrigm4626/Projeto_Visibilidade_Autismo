@@ -26,7 +26,7 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-white self-center py-12 px-12 flex justify-between gap-6">
+      <section className="bg-white self-center py-12 px-12 flex flex-col lg:flex-row justify-between gap-6">
         <div className='text-start'>
           <h1 className="text-4xl font-bold text-darkPurple mb-4">
             Sua carreira profissional começa aqui!
@@ -101,7 +101,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-darkPurple text-white justify-center flex justify-between px-12 py-4">
+      <section className="bg-darkPurple text-white justify-center flex flex-col lg:flex-row justify-between px-12 py-4">
         <h2 className="text-3xl font-bold">
           Que tal iniciar sua jornada de autoconhecimento?
         </h2>
