@@ -1,5 +1,6 @@
-'use client'; // Ensures this component runs in the browser
+'use client';
 import Image from 'next/image';
+import MultipleChoiceQuestion from '../../components/MultipleChoiceQuestion';
 import { useRouter } from 'next/navigation';
 
 export default function HabilidadesLaborais() {
@@ -26,6 +27,9 @@ export default function HabilidadesLaborais() {
           <li className="text-primaryPurple">Avaliação das Habilidades Laborais</li>
         </ul>
       </nav>
+
+      <MultipleChoiceQuestion title='Eu consigo organizar minhas tarefas diárias de forma eficiente:'/>
+
 
       {/* Content */}
       <main className="py-8 px-4 max-w-4xl mx-auto">
