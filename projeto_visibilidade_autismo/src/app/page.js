@@ -111,7 +111,7 @@ export default function Home() {
           </h2>
           <button
             className="rounded-full bg-primaryPurple p-2 hover:bg-darkPurple text-white font-bold px-6"
-            onClick={() => router.push("/habilidades_sociais_1")}
+            onClick={() => router.push("/forms")}
           >
             Iniciar teste
           </button>

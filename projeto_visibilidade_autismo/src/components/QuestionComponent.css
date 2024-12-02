@@ -1,0 +1,12 @@
+.question-component .MuiFormControlLabel-root {
+    margin-right: 20px;
+  }
+  
+  .MuiRadio-root {
+    color: #582F95;
+  }
+  
+  .MuiRadio-checked {
+    color: #934FF8;
+  }
+  
