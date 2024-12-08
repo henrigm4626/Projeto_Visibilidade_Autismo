@@ -11,39 +11,51 @@ function createBarGraph(containerId, title, number) {
 
   // Create the graph title
   const titleElement = document.createElement('h2');
-  titleElement.className = 'text-xl font-bold text-center';
+  titleElement.className = 'text-xl font-bold text-center mb-4';
   titleElement.textContent = title;
   container.appendChild(titleElement);
 
-  // Create y-axis labels (1 to 5)
-  const yAxisContainer = document.createElement('div');
-  yAxisContainer.className = 'flex flex-col items-end pr-4';
-  for (let i = 5; i >= 1; i--) {
-    const label = document.createElement('div');
-    label.className = 'text-sm h-8 flex items-center';
-    label.textContent = i;
-    yAxisContainer.appendChild(label);
-  }
+  // Graph Container
+  const graphContainer = document.createElement('div');
+  graphContainer.className = 'relative w-full h-64 border-l border-b border-gray-300';
 
-  // Create the bar container
-  const barContainer = document.createElement('div');
-  barContainer.className = 'flex-grow bg-gray-100 relative';
+  // Add dotted lines and y-axis labels
+  for (let i = 5; i >= 1; i--) {
+    const lineContainer = document.createElement('div');
+    lineContainer.className = 'absolute w-full flex items-center';
+    lineContainer.style.bottom = `${((i - 1) / 5) * 100}%`;
+
+    // Dotted line
+    const dottedLine = document.createElement('div');
+    dottedLine.className = 'w-full border-t border-dotted border-gray-400';
+    dottedLine.style.borderWidth = '0.5px'; // Thinner dotted line
+
+    // Add y-axis label inside the graph
+    const label = document.createElement('div');
+    label.className = 'absolute -left-8 text-sm text-gray-600';
+    label.textContent = i;
+
+    lineContainer.appendChild(dottedLine);
+    lineContainer.appendChild(label);
+    graphContainer.appendChild(lineContainer);
+  }
 
   // Add the bar
   const bar = document.createElement('div');
-  bar.className = `absolute bottom-0 bg-blue-500 transition-all duration-300 ease-in-out`;
+  bar.className = 'absolute bottom-0 bg-blue-500 flex justify-center items-center text-white text-sm font-semibold transition-all duration-300 ease-in-out';
   bar.style.height = `${(number / 5) * 100}%`; // Convert number to percentage
-  bar.style.width = '100%';
+  bar.style.width = '50px';
+  bar.style.left = '50%';
+  bar.style.transform = 'translateX(-50%)';
 
-  barContainer.appendChild(bar);
+  // Add numerical value inside the bar
+  const value = document.createElement('div');
+  value.textContent = number.toFixed(1); // Show 1 decimal for the average
+  bar.appendChild(value);
 
-  // Combine y-axis and bar container
-  const graphContainer = document.createElement('div');
-  graphContainer.className = 'flex items-stretch space-x-2';
-  graphContainer.appendChild(yAxisContainer);
-  graphContainer.appendChild(barContainer);
+  graphContainer.appendChild(bar);
 
-  // Add graph to container
+  // Append the graph to the container
   container.appendChild(graphContainer);
 }
 
@@ -68,46 +80,42 @@ const Results = () => {
 
   return (
     <div className="resultados">
-      <h2>Results</h2>
+      <h2 className="text-2xl font-bold mb-8">Results</h2>
       <p>Name: {formData.nome}</p>
       <p>Age: {formData.idade}</p>
       <p>Email: {formData.email}</p>
-      {answers.map((group, groupIndex) => {
-        // Calcular a média das respostas do grupo
-        const totalAnswers = group.length;
-        const groupAverage = group.reduce((sum, answer) => sum + Number(answer.answer), 0) / totalAnswers;
+      <div className="flex flex-wrap justify-center gap-6 mb-16">
+        {answers.map((group, groupIndex) => {
+          // Calculate the group average
+          const totalAnswers = group.length;
+          const groupAverage =
+            group.reduce((sum, answer) => sum + Number(answer.answer), 0) /
+            totalAnswers;
 
-        // ID exclusivo para o gráfico do grupo
-        const groupGraphId = `bar-graph-group-${groupIndex}`;
+          // Unique ID for the graph
+          const groupGraphId = `bar-graph-group-${groupIndex}`;
 
-        // Invocar createBarGraph para a média do grupo
-        setTimeout(() => {
-          createBarGraph(
-            groupGraphId,
-            `Group ${groupIndex + 1} Average`,
-            groupAverage
+          // Create the graph
+          setTimeout(() => {
+            createBarGraph(
+              groupGraphId,
+              `Group ${groupIndex + 1} Average`,
+              groupAverage
+            );
+          }, 0);
+
+          return (
+            <div
+              key={groupIndex}
+              id={groupGraphId}
+              className="w-[15%] h-64-md p-2"
+            ></div>
           );
-        }, 0);
-
-        return (
-          <li key={groupIndex}>
-            <strong>Group {groupIndex + 1}:</strong>
-            <ul>
-              {group.map((answer, answerIndex) => (
-                <li key={answerIndex}>
-                  <p>Question: {answer.title}</p>
-                  <p>Selected Option: {answer.answer}</p>
-                </li>
-              ))}
-            </ul>
-
-            {/* Container para o gráfico da média do grupo */}
-            <div id={groupGraphId} className="w-1/2 h-64 mt-4"></div>
-          </li>
-        );
-      })}
+        })}
+      </div>
     </div>
   );
 };
 
 export default Results;
+
