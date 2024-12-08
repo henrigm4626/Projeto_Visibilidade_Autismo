@@ -30,15 +30,13 @@ function createBarGraph(containerId, title, number) {
     lineContainer.className = 'absolute w-full flex items-center';
     lineContainer.style.bottom = `${((i - 1) / 5) * 100}%`;
 
-    // Dotted line
     const dottedLine = document.createElement('div');
     dottedLine.className = 'w-full border-t border-dotted border-gray-400';
-    dottedLine.style.borderWidth = '0.5px'; // Thinner dotted line
+    dottedLine.style.borderWidth = '0.5px'; 
 
-    // Add y-axis label inside the graph
     const label = document.createElement('div');
     label.className = 'absolute -left-8 text-sm text-gray-600';
-    label.textContent = i-1;
+    label.textContent = i - 1;
 
     lineContainer.appendChild(dottedLine);
     lineContainer.appendChild(label);
@@ -47,30 +45,25 @@ function createBarGraph(containerId, title, number) {
 
   const barColors = ['#934ff8', '#f8584f', '#ffab51', '#496edb', '#006437'];
 
-  // Add the bar
   const bar = document.createElement('div');
   bar.className = 'absolute bottom-0 flex justify-center items-center text-white text-sm font-semibold transition-all duration-300 ease-in-out';
-  bar.style.backgroundColor = barColors[containerId.split('-').pop() % barColors.length]; // Define a cor baseada no índice
-  bar.style.height = `${(number / 5) * 100}%`; // Convert number to percentage
+  bar.style.backgroundColor = barColors[containerId.split('-').pop() % barColors.length];
+  bar.style.height = `${(number / 5) * 100}%`;
   bar.style.width = '50px';
   bar.style.left = '50%';
   bar.style.transform = 'translateX(-50%)';
 
-  // Add numerical value inside the bar
   const value = document.createElement('div');
-  value.textContent = number.toFixed(1); // Show 1 decimal for the average
+  value.textContent = number.toFixed(1);
   bar.appendChild(value);
 
   graphContainer.appendChild(bar);
-
-  // Append the graph to the container
   container.appendChild(graphContainer);
 }
 
-// Função para exportar para PDF
 const exportToPDF = () => {
   const button = document.querySelector('.btn-export-pdf');
-  button.style.display = 'none'; // Esconde o botão
+  button.style.display = 'none';
 
   const element = document.querySelector('.resultados');
   html2canvas(element, { scale: 2 }).then((canvas) => {
@@ -90,12 +83,11 @@ const exportToPDF = () => {
     }
 
     pdf.save('Resultados.pdf');
-
-    button.style.display = 'block'; // Mostra o botão novamente
+    button.style.display = 'block';
   });
 };
 
-const Results = () => {
+const ResultsContent = () => {
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState(null);
   const [answers, setAnswers] = useState(null);
@@ -115,67 +107,66 @@ const Results = () => {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="resultados">
-        <section className="max-w-screen-2xl mx-auto bg-white py-12 flex flex-col lg:flex-row justify-between gap-6 px-12">
-          <h1 className="text-4xl font-bold text-darkPurple mb-4">
-            Aqui estão os seus resultados, {formData.nome.split(' ')[0]}!
-          </h1>
-        </section>
-        <div className="flex flex-wrap justify-center gap-6 mb-16">
-          {answers.map((group, groupIndex) => {
-            // Calculate the group average
-            const totalAnswers = group.length;
-            const groupAverage =
-              group.reduce((sum, answer) => sum + Number(answer.answer), 0) /
-              totalAnswers;
+    <div className="resultados">
+      <section className="max-w-screen-2xl mx-auto bg-white py-12 flex flex-col lg:flex-row justify-between gap-6 px-12">
+        <h1 className="text-4xl font-bold text-darkPurple mb-4">
+          Aqui estão os seus resultados, {formData.nome.split(' ')[0]}!
+        </h1>
+      </section>
 
-            // Unique ID for the graph
-            const groupGraphId = `bar-graph-group-${groupIndex}`;
+      <div className="flex flex-wrap justify-center gap-6 mb-16">
+        {answers.map((group, groupIndex) => {
+          const totalAnswers = group.length;
+          const groupAverage =
+            group.reduce((sum, answer) => sum + Number(answer.answer), 0) /
+            totalAnswers;
 
-            // Create the graph
-            setTimeout(() => {
-              createBarGraph(
-                groupGraphId,
-                `${groups[groupIndex]}`,
-                groupAverage + 1
-              );
-            }, 0);
+          const groupGraphId = `bar-graph-group-${groupIndex}`;
 
-            return (
-              <div
-                key={groupIndex}
-                id={groupGraphId}
-                className="w-[15%] h-64-md p-2"
-              ></div>
+          setTimeout(() => {
+            createBarGraph(
+              groupGraphId,
+              `${groups[groupIndex]}`,
+              groupAverage + 1
             );
-          })}
-        </div>
-        <section className="max-w-screen-2xl mx-auto bg-white py-3 flex flex-col px-12">
-          <h1 className="text-4xl font-bold text-darkPurple mb-4 py-10">
-            Informações pessoais
-          </h1>
-          <h3 className="text-2xl text-black mb-4 px-12">
-            Nome: {formData.nome}
-          </h3>
-          <h3 className="text-2xl text-black mb-4 px-12">
-            Idade: {formData.idade}
-          </h3>
-          <h3 className="text-2xl text-black mb-4 px-12">
-            Email: {formData.email}
-          </h3>
-        </section>
-        {/* Botão de exportação para PDF */}
-        <button
-          className="btn-export-pdf"
-          onClick={exportToPDF}
-        >
-          Exportar PDF
-        </button>
+          }, 0);
+
+          return (
+            <div
+              key={groupIndex}
+              id={groupGraphId}
+              className="w-[15%] h-64-md p-2"
+            ></div>
+          );
+        })}
       </div>
-    </Suspense>
+
+      <section className="max-w-screen-2xl mx-auto bg-white py-3 flex flex-col px-12">
+        <h1 className="text-4xl font-bold text-darkPurple mb-4 py-10">
+          Informações pessoais
+        </h1>
+        <h3 className="text-2xl text-black mb-4 px-12">
+          Nome: {formData.nome}
+        </h3>
+        <h3 className="text-2xl text-black mb-4 px-12">
+          Idade: {formData.idade}
+        </h3>
+        <h3 className="text-2xl text-black mb-4 px-12">
+          Email: {formData.email}
+        </h3>
+      </section>
+
+      <button className="btn-export-pdf" onClick={exportToPDF}>
+        Exportar PDF
+      </button>
+    </div>
   );
 };
 
-export default Results;
+const Results = () => (
+  <Suspense fallback={<div>Carregando...</div>}>
+    <ResultsContent />
+  </Suspense>
+);
 
+export default Results;
