@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
+const groups = ['Capacidade de Comunicação', 'Relações Interpessoais', 'Avaliação de Empatia', 'Organização de Trabalho', 'Cumprimento de Regras', 'Cumprimento de Regras']
+
 function createBarGraph(containerId, title, number) {
   const container = document.getElementById(containerId);
 
@@ -23,7 +25,7 @@ function createBarGraph(containerId, title, number) {
   graphContainer.className = 'relative w-full h-64 border-l border-b border-gray-300';
 
   // Add dotted lines and y-axis labels
-  for (let i = 5; i >= 1; i--) {
+  for (let i = 6; i >= 1; i--) {
     const lineContainer = document.createElement('div');
     lineContainer.className = 'absolute w-full flex items-center';
     lineContainer.style.bottom = `${((i - 1) / 5) * 100}%`;
@@ -36,14 +38,14 @@ function createBarGraph(containerId, title, number) {
     // Add y-axis label inside the graph
     const label = document.createElement('div');
     label.className = 'absolute -left-8 text-sm text-gray-600';
-    label.textContent = i;
+    label.textContent = i-1;
 
     lineContainer.appendChild(dottedLine);
     lineContainer.appendChild(label);
     graphContainer.appendChild(lineContainer);
   }
 
-  const barColors = ['#934ff8', '#f8584f', '#ffab51', '#496edb', '#582f95'];
+  const barColors = ['#934ff8', '#f8584f', '#ffab51', '#496edb', '#006437'];
 
   // Add the bar
   const bar = document.createElement('div');
@@ -114,10 +116,11 @@ const Results = () => {
 
   return (
     <div className="resultados">
-      <h2 className="text-2xl font-bold mb-8">Results</h2>
-      <p>Name: {formData.nome}</p>
-      <p>Age: {formData.idade}</p>
-      <p>Email: {formData.email}</p>
+      <section className="max-w-screen-2xl mx-auto bg-white py-12 flex flex-col lg:flex-row justify-between gap-6 px-12">
+        <h1 className="text-4xl font-bold text-darkPurple mb-4">
+          Aqui estão os seus resultados, {formData.nome.split(' ')[0]}!
+        </h1>
+      </section>
       <div className="flex flex-wrap justify-center gap-6 mb-16">
         {answers.map((group, groupIndex) => {
           // Calculate the group average
@@ -133,8 +136,8 @@ const Results = () => {
           setTimeout(() => {
             createBarGraph(
               groupGraphId,
-              `Média do Grupo ${groupIndex + 1}`,
-              groupAverage
+              `${groups[groupIndex]}`,
+              groupAverage + 1
             );
           }, 0);
 
@@ -147,6 +150,20 @@ const Results = () => {
           );
         })}
       </div>
+      <section className="max-w-screen-2xl mx-auto bg-white py-3 flex flex-col px-12">
+        <h1 className="text-4xl font-bold text-darkPurple mb-4 py-10">
+          Informações pessoais
+        </h1>
+        <h3 className="text-2xl text-black mb-4 px-12">
+          Nome: {formData.nome}
+        </h3>
+        <h3 className="text-2xl text-black mb-4 px-12">
+          Idade: {formData.idade}
+        </h3>
+        <h3 className="text-2xl text-black mb-4 px-12">
+          Email: {formData.email}
+        </h3>
+      </section>
       {/* Botão de exportação para PDF */}
       <button
         className="btn-export-pdf"
