@@ -1,3 +1,22 @@
 .resultados{
   @apply text-black;
 }
+
+.btn-export-pdf {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 24px;
+  font-weight: bold;
+  background-color: #9c27b0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.3s ease;
+}
+
+.btn-export-pdf:hover {
+  background-color: #ab47bc;
+}

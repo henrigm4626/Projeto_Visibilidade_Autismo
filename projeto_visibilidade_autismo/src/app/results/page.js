@@ -3,6 +3,9 @@ import "./page.css";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+
 function createBarGraph(containerId, title, number) {
   const container = document.getElementById(containerId);
 
@@ -62,6 +65,34 @@ function createBarGraph(containerId, title, number) {
   container.appendChild(graphContainer);
 }
 
+// Função para exportar para PDF
+const exportToPDF = () => {
+  const button = document.querySelector('.btn-export-pdf');
+  button.style.display = 'none'; // Esconde o botão
+
+  const element = document.querySelector('.resultados');
+  html2canvas(element, { scale: 2 }).then((canvas) => {
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgWidth = 210;
+    const pageHeight = 297;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    let position = 0;
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+    while (imgHeight > pageHeight) {
+      position -= pageHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    }
+
+    pdf.save('Resultados.pdf');
+
+    button.style.display = 'block'; // Mostra o botão novamente
+  });
+};
+
 const Results = () => {
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState(null);
@@ -78,15 +109,15 @@ const Results = () => {
   }, [searchParams]);
 
   if (!formData || !answers) {
-    return <p>Carregando...</p>;
+    return <p>Loading...</p>;
   }
 
   return (
     <div className="resultados">
-      <h2 className="text-2xl font-bold mb-8">Resultados</h2>
-      <p>Nome: {formData.nome}</p>
-      <p>Idade: {formData.idade}</p>
-      <p>E-mail: {formData.email}</p>
+      <h2 className="text-2xl font-bold mb-8">Results</h2>
+      <p>Name: {formData.nome}</p>
+      <p>Age: {formData.idade}</p>
+      <p>Email: {formData.email}</p>
       <div className="flex flex-wrap justify-center gap-6 mb-16">
         {answers.map((group, groupIndex) => {
           // Calculate the group average
@@ -116,6 +147,13 @@ const Results = () => {
           );
         })}
       </div>
+      {/* Botão de exportação para PDF */}
+      <button
+        className="btn-export-pdf"
+        onClick={exportToPDF}
+      >
+        Exportar PDF
+      </button>
     </div>
   );
 };
