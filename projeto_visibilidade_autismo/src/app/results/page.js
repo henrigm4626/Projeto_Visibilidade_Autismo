@@ -40,9 +40,12 @@ function createBarGraph(containerId, title, number) {
     graphContainer.appendChild(lineContainer);
   }
 
+  const barColors = ['#934ff8', '#f8584f', '#ffab51', '#496edb', '#582f95'];
+
   // Add the bar
   const bar = document.createElement('div');
-  bar.className = 'absolute bottom-0 bg-blue-500 flex justify-center items-center text-white text-sm font-semibold transition-all duration-300 ease-in-out';
+  bar.className = 'absolute bottom-0 flex justify-center items-center text-white text-sm font-semibold transition-all duration-300 ease-in-out';
+  bar.style.backgroundColor = barColors[containerId.split('-').pop() % barColors.length]; // Define a cor baseada no índice
   bar.style.height = `${(number / 5) * 100}%`; // Convert number to percentage
   bar.style.width = '50px';
   bar.style.left = '50%';
@@ -75,15 +78,15 @@ const Results = () => {
   }, [searchParams]);
 
   if (!formData || !answers) {
-    return <p>Loading...</p>;
+    return <p>Carregando...</p>;
   }
 
   return (
     <div className="resultados">
-      <h2 className="text-2xl font-bold mb-8">Results</h2>
-      <p>Name: {formData.nome}</p>
-      <p>Age: {formData.idade}</p>
-      <p>Email: {formData.email}</p>
+      <h2 className="text-2xl font-bold mb-8">Resultados</h2>
+      <p>Nome: {formData.nome}</p>
+      <p>Idade: {formData.idade}</p>
+      <p>E-mail: {formData.email}</p>
       <div className="flex flex-wrap justify-center gap-6 mb-16">
         {answers.map((group, groupIndex) => {
           // Calculate the group average
@@ -99,7 +102,7 @@ const Results = () => {
           setTimeout(() => {
             createBarGraph(
               groupGraphId,
-              `Group ${groupIndex + 1} Average`,
+              `Média do Grupo ${groupIndex + 1}`,
               groupAverage
             );
           }, 0);
