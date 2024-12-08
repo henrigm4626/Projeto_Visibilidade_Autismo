@@ -1,4 +1,5 @@
 "use client";
+import "./page.css";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -22,12 +23,29 @@ const Results = () => {
   }
 
   return (
-    <div>
+    <div className="resultados">
       <h2>Results</h2>
       <p>Name: {formData.nome}</p>
       <p>Age: {formData.idade}</p>
       <p>Email: {formData.email}</p>
-      <p>Answers: {answers.join(", ")}</p>
+      <div>
+        <h3>Answers:</h3>
+        <ul>
+          {answers.map((group, groupIndex) => (
+            <li key={groupIndex}>
+              <strong>Group {groupIndex + 1}:</strong>
+              <ul>
+                {group.map((answer, answerIndex) => (
+                  <li key={answerIndex}>
+                    <p>Question: {answer.title}</p>
+                    <p>Selected Option: {answer.options[answer.answer]}</p>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
