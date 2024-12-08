@@ -52,27 +52,33 @@ export default function RootLayout({ children }) {
               priority
             />
             <div className="flex gap-2">
-              <Image
-                src="/facebookLogo.svg"
-                alt="logo"
-                width={13}
-                height={25}
-                priority
-              />
-              <Image
-                src="/instagramLogo.svg"
-                alt="logo"
-                width={25}
-                height={25}
-                priority
-              />
-              <Image
-                src="/youtubeLogo.svg"
-                alt="logo"
-                width={35}
-                height={25}
-                priority
-              />
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+                <Image
+                  src="/facebookLogo.svg"
+                  alt="Facebook"
+                  width={13}
+                  height={25}
+                  priority
+                />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <Image
+                  src="/instagramLogo.svg"
+                  alt="Instagram"
+                  width={25}
+                  height={25}
+                  priority
+                />
+              </a>
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+                <Image
+                  src="/youtubeLogo.svg"
+                  alt="YouTube"
+                  width={35}
+                  height={25}
+                  priority
+                />
+              </a>
             </div>
           </div>
         </footer>
