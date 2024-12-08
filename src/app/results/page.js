@@ -1,7 +1,7 @@
 "use client";
 import "./page.css";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -115,63 +115,65 @@ const Results = () => {
   }
 
   return (
-    <div className="resultados">
-      <section className="max-w-screen-2xl mx-auto bg-white py-12 flex flex-col lg:flex-row justify-between gap-6 px-12">
-        <h1 className="text-4xl font-bold text-darkPurple mb-4">
-          Aqui estão os seus resultados, {formData.nome.split(' ')[0]}!
-        </h1>
-      </section>
-      <div className="flex flex-wrap justify-center gap-6 mb-16">
-        {answers.map((group, groupIndex) => {
-          // Calculate the group average
-          const totalAnswers = group.length;
-          const groupAverage =
-            group.reduce((sum, answer) => sum + Number(answer.answer), 0) /
-            totalAnswers;
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="resultados">
+        <section className="max-w-screen-2xl mx-auto bg-white py-12 flex flex-col lg:flex-row justify-between gap-6 px-12">
+          <h1 className="text-4xl font-bold text-darkPurple mb-4">
+            Aqui estão os seus resultados, {formData.nome.split(' ')[0]}!
+          </h1>
+        </section>
+        <div className="flex flex-wrap justify-center gap-6 mb-16">
+          {answers.map((group, groupIndex) => {
+            // Calculate the group average
+            const totalAnswers = group.length;
+            const groupAverage =
+              group.reduce((sum, answer) => sum + Number(answer.answer), 0) /
+              totalAnswers;
 
-          // Unique ID for the graph
-          const groupGraphId = `bar-graph-group-${groupIndex}`;
+            // Unique ID for the graph
+            const groupGraphId = `bar-graph-group-${groupIndex}`;
 
-          // Create the graph
-          setTimeout(() => {
-            createBarGraph(
-              groupGraphId,
-              `${groups[groupIndex]}`,
-              groupAverage + 1
+            // Create the graph
+            setTimeout(() => {
+              createBarGraph(
+                groupGraphId,
+                `${groups[groupIndex]}`,
+                groupAverage + 1
+              );
+            }, 0);
+
+            return (
+              <div
+                key={groupIndex}
+                id={groupGraphId}
+                className="w-[15%] h-64-md p-2"
+              ></div>
             );
-          }, 0);
-
-          return (
-            <div
-              key={groupIndex}
-              id={groupGraphId}
-              className="w-[15%] h-64-md p-2"
-            ></div>
-          );
-        })}
+          })}
+        </div>
+        <section className="max-w-screen-2xl mx-auto bg-white py-3 flex flex-col px-12">
+          <h1 className="text-4xl font-bold text-darkPurple mb-4 py-10">
+            Informações pessoais
+          </h1>
+          <h3 className="text-2xl text-black mb-4 px-12">
+            Nome: {formData.nome}
+          </h3>
+          <h3 className="text-2xl text-black mb-4 px-12">
+            Idade: {formData.idade}
+          </h3>
+          <h3 className="text-2xl text-black mb-4 px-12">
+            Email: {formData.email}
+          </h3>
+        </section>
+        {/* Botão de exportação para PDF */}
+        <button
+          className="btn-export-pdf"
+          onClick={exportToPDF}
+        >
+          Exportar PDF
+        </button>
       </div>
-      <section className="max-w-screen-2xl mx-auto bg-white py-3 flex flex-col px-12">
-        <h1 className="text-4xl font-bold text-darkPurple mb-4 py-10">
-          Informações pessoais
-        </h1>
-        <h3 className="text-2xl text-black mb-4 px-12">
-          Nome: {formData.nome}
-        </h3>
-        <h3 className="text-2xl text-black mb-4 px-12">
-          Idade: {formData.idade}
-        </h3>
-        <h3 className="text-2xl text-black mb-4 px-12">
-          Email: {formData.email}
-        </h3>
-      </section>
-      {/* Botão de exportação para PDF */}
-      <button
-        className="btn-export-pdf"
-        onClick={exportToPDF}
-      >
-        Exportar PDF
-      </button>
-    </div>
+    </Suspense>
   );
 };
 
