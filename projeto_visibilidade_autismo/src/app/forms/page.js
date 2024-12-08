@@ -67,13 +67,12 @@ function Form() {
   };
 
   const handleNavigate = () => {
-    router.push({
-      pathname: "/results",
-      query: {
-        formData: JSON.stringify(formData), // Make sure to stringify objects
-        answers: JSON.stringify(answers),
-      },
-    });
+    const query = new URLSearchParams({
+      formData: JSON.stringify(formData),
+      answers: JSON.stringify(answers),
+    }).toString();
+  
+    router.push(`/results?${query}`);
   };
 
   return (
