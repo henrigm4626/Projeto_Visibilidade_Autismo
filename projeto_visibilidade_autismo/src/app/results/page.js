@@ -1,18 +1,21 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Results = () => {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const [formData, setFormData] = useState(null);
   const [answers, setAnswers] = useState(null);
 
   useEffect(() => {
-    if (router.query.formData && router.query.answers) {
-      setFormData(JSON.parse(router.query.formData));
-      setAnswers(JSON.parse(router.query.answers));
+    const formDataParam = searchParams.get("formData");
+    const answersParam = searchParams.get("answers");
+
+    if (formDataParam && answersParam) {
+      setFormData(JSON.parse(formDataParam));
+      setAnswers(JSON.parse(answersParam));
     }
-  }, [router.query]);
+  }, [searchParams]);
 
   if (!formData || !answers) {
     return <p>Loading...</p>;
